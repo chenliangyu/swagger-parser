@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>io.swagger.parser.v3</groupId>
+        <groupId>com.binavid.swagger.parser</groupId>
         <artifactId>swagger-parser-project</artifactId>
-        <version>2.0.3-SNAPSHOT</version>
+        <version>2.0.3-binavid.com-1</version>
         <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -28,12 +28,12 @@
             <version>${swagger-core-version}</version>
         </dependency>
         <dependency>
-            <groupId>io.swagger.parser.v3</groupId>
+            <groupId>com.binavid.swagger.parser</groupId>
             <artifactId>swagger-parser-core</artifactId>
             <version>${parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.swagger.parser.v3</groupId>
+            <groupId>com.binavid.swagger.parser</groupId>
             <artifactId>swagger-parser-v3</artifactId>
             <version>${parent.version}</version>
         </dependency>

@@ -48,7 +48,12 @@ public class OpenAPIV3Parser implements SwaggerParserExtension {
                 String version = result.getOpenAPI().getOpenapi();
                 if (version != null && version.startsWith("3.0")) {
                     if (options != null) {
-                        OpenAPIResolver resolver = new OpenAPIResolver(result.getOpenAPI(), auth, url);
+                        OpenAPIResolver.Settings settings = null;
+                        if (options.getBasePath() != null){
+                            settings = new OpenAPIResolver.Settings();
+                            settings.setBasePath(options.getBasePath());
+                        }
+                        OpenAPIResolver resolver = new OpenAPIResolver(result.getOpenAPI(), auth, url, settings);
                         if (options.isResolve()) {
                             result.setOpenAPI(resolver.resolve());
                         }
@@ -167,18 +172,23 @@ public class OpenAPIV3Parser implements SwaggerParserExtension {
             }
             try{
                 if(options != null) {
+                    OpenAPIResolver.Settings settings = null;
+                    if (options.getBasePath() != null){
+                        settings = new OpenAPIResolver.Settings();
+                        settings.setBasePath(options.getBasePath());
+                    }
                     if (options.isResolve()) {
                         OpenAPIDeserializer deserializer = new OpenAPIDeserializer();
                         JsonNode rootNode = mapper.readTree(swaggerAsString.getBytes());
                         result = deserializer.deserialize(rootNode);
-                        OpenAPIResolver resolver = new OpenAPIResolver(result.getOpenAPI(), auth, null);
+                        OpenAPIResolver resolver = new OpenAPIResolver(result.getOpenAPI(), auth, null, settings);
                         result.setOpenAPI(resolver.resolve());
                     }else{
                         JsonNode rootNode = mapper.readTree(swaggerAsString.getBytes());
                         result = new OpenAPIDeserializer().deserialize(rootNode);
                     }
                     if (options.isResolveFully()) {
-                        result.setOpenAPI(new OpenAPIResolver(result.getOpenAPI(), auth, null).resolve());
+                        result.setOpenAPI(new OpenAPIResolver(result.getOpenAPI(), auth, null, settings).resolve());
                         new ResolverFully(options.isResolveCombinators()).resolveFully(result.getOpenAPI());
 
                     }

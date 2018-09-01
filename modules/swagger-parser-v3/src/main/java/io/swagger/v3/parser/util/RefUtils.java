@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
+import java.util.Arrays;
+
 
 public class RefUtils {
 
@@ -127,7 +129,11 @@ public class RefUtils {
                 trimRel += 1;
             }
             else if ("..".equals(relPathParts[i])) {
-                trimRel += 1;
+                if(i == 0){
+                    trimRel += 2;
+                }else{
+                    trimRel += 1;
+                }
             }
         }
 

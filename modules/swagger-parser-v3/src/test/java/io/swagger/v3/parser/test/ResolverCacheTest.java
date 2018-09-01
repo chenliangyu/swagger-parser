@@ -60,7 +60,7 @@ public class ResolverCacheTest {
             result = expectedResult;
         }};
 
-        ResolverCache cache = new ResolverCache(openAPI, auths, "http://my.company.com/path/parent.json");
+        ResolverCache cache = new ResolverCache(openAPI, auths, "http://my.company.com/path/parent.json", null);
 
         Schema firstActualResult = cache.loadRef(ref, RefFormat.URL, Schema.class);
 
@@ -85,7 +85,7 @@ public class ResolverCacheTest {
             result = expectedResult;
         }};
 
-        ResolverCache cache = new ResolverCache(openAPI, auths, "http://my.company.com/path/parent.json");
+        ResolverCache cache = new ResolverCache(openAPI, auths, "http://my.company.com/path/parent.json", null);
 
         Schema firstActualResult = cache.loadRef(ref, RefFormat.URL, Schema.class);
 
@@ -122,7 +122,7 @@ public class ResolverCacheTest {
             result = contentsOfExternalFile;
         }};
 
-        ResolverCache cache = new ResolverCache(openAPI, auths, "http://my.company.com/path/parent.json");
+        ResolverCache cache = new ResolverCache(openAPI, auths, "http://my.company.com/path/parent.json", null);
 
         PathItem path = cache.loadRef(ref+"#/paths/~1foo~0bar~01", RefFormat.URL, PathItem.class);
         assertNotNull(path);
@@ -133,7 +133,7 @@ public class ResolverCacheTest {
         OpenAPI openAPI = new OpenAPI();
         openAPI.components(new Components().addParameters("foo", mockedParameter));
 
-        ResolverCache cache = new ResolverCache(openAPI, auths, null);
+        ResolverCache cache = new ResolverCache(openAPI, auths, null, null);
         Parameter actualResult = cache.loadRef("#/components/parameters/foo", RefFormat.INTERNAL, Parameter.class);
         assertEquals(actualResult, mockedParameter);
 
@@ -146,7 +146,7 @@ public class ResolverCacheTest {
         OpenAPI openAPI = new OpenAPI();
         openAPI.components(new Components().addParameters("foo bar", mockedParameter));
 
-        ResolverCache cache = new ResolverCache(openAPI, auths, null);
+        ResolverCache cache = new ResolverCache(openAPI, auths, null, null);
         Parameter actualResult = cache.loadRef("#/components/parameters/foo bar", RefFormat.INTERNAL, Parameter.class);
         assertEquals(actualResult, mockedParameter);
     }
@@ -156,7 +156,7 @@ public class ResolverCacheTest {
         OpenAPI openAPI = new OpenAPI();
         openAPI.components(new Components().addSchemas("foo", mockedModel));
 
-        ResolverCache cache = new ResolverCache(openAPI, auths, null);
+        ResolverCache cache = new ResolverCache(openAPI, auths, null, null);
         Schema actualResult = cache.loadRef("#/components/schemas/foo", RefFormat.INTERNAL, Schema.class);
         assertEquals(actualResult, mockedModel);
 
@@ -169,7 +169,7 @@ public class ResolverCacheTest {
         OpenAPI openAPI = new OpenAPI();
         openAPI.components(new Components().addSchemas("foo bar", mockedModel));
 
-        ResolverCache cache = new ResolverCache(openAPI, auths, null);
+        ResolverCache cache = new ResolverCache(openAPI, auths, null, null);
         Schema actualResult = cache.loadRef("#/components/schemas/foo bar", RefFormat.INTERNAL, Schema.class);
         assertEquals(actualResult, mockedModel);
     }
@@ -179,7 +179,7 @@ public class ResolverCacheTest {
         OpenAPI openAPI = new OpenAPI();
         openAPI.components(new Components().addSchemas("foo~bar/baz~1", mockedModel));
 
-        ResolverCache cache = new ResolverCache(openAPI, auths, null);
+        ResolverCache cache = new ResolverCache(openAPI, auths, null, null);
         Schema actualResult = cache.loadRef("#/components/schemas/foo~0bar~1baz~01", RefFormat.INTERNAL, Schema.class);
         assertEquals(actualResult, mockedModel);
     }
@@ -189,7 +189,7 @@ public class ResolverCacheTest {
         OpenAPI openAPI = new OpenAPI();
         openAPI.components(new Components().addResponses("foo", mockedResponse));
 
-        ResolverCache cache = new ResolverCache(openAPI, auths, null);
+        ResolverCache cache = new ResolverCache(openAPI, auths, null, null);
         ApiResponse actualResult = cache.loadRef("#/components/responses/foo", RefFormat.INTERNAL, ApiResponse.class);
         assertEquals(actualResult, mockedResponse);
 
@@ -201,14 +201,14 @@ public class ResolverCacheTest {
         OpenAPI openAPI = new OpenAPI();
         openAPI.components(new Components().addResponses("foo bar", mockedResponse));
 
-        ResolverCache cache = new ResolverCache(openAPI, auths, null);
+        ResolverCache cache = new ResolverCache(openAPI, auths, null, null);
         ApiResponse actualResult = cache.loadRef("#/components/responses/foo bar", RefFormat.INTERNAL, ApiResponse.class);
         assertEquals(actualResult, mockedResponse);
     }
 
     @Test
     public void testRenameCache() throws Exception {
-        ResolverCache cache = new ResolverCache(openAPI, auths, null);
+        ResolverCache cache = new ResolverCache(openAPI, auths, null, null);
 
         assertNull(cache.getRenamedRef("foo"));
         cache.putRenamedRef("foo", "bar");

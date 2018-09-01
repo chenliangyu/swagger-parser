@@ -32,10 +32,12 @@ public class OpenAPIResolver {
         this(openApi, auths, parentFileLocation, null);
     }
 
+
+
     public OpenAPIResolver(OpenAPI openApi, List<AuthorizationValue> auths, String parentFileLocation, Settings settings) {
         this.openApi = openApi;
         this.settings = settings != null ? settings : new Settings();
-        this.cache = new ResolverCache(openApi, auths, parentFileLocation);
+        this.cache = new ResolverCache(openApi, auths, parentFileLocation, settings);
         componentsProcessor = new ComponentsProcessor(openApi,this.cache);
         pathProcessor = new PathsProcessor(cache, openApi,this.settings);
         operationsProcessor = new OperationProcessor(cache, openApi);
@@ -67,6 +69,8 @@ public class OpenAPIResolver {
 
         private boolean addParametersToEachOperation = true;
 
+        private String basePath;
+
         /**
          * If true, resource parameters are added to each operation
          */
@@ -82,6 +86,19 @@ public class OpenAPIResolver {
             return this;
         }
 
+        /**
+         * get base path for resolve url
+         */
+        public String getBasePath() {
+            return this.basePath;
+        }
 
+        /**
+         * set  base path for resolve url
+         */
+        public Settings setBasePath(String basePath) {
+            this.basePath = basePath;
+            return this;
+        }
     }
 }

@@ -17,4 +17,14 @@ public class PathUtilTest {
 
         assertEquals(actualResult, expectedResult);
     }
+
+    @Test 
+    public void testGetParentDirectoryByBasePath() throws Exception {
+
+        final String actualResult = PathUtils.getParentDirectoryByBasePath("src/test/resources/").toString();
+
+        final String expectedResult = Paths.get("src/test/resources").toAbsolutePath().toString();
+
+        assertEquals(actualResult, expectedResult);
+    }
 }

@@ -12,6 +12,7 @@ import io.swagger.v3.parser.util.DeserializationUtils;
 import io.swagger.v3.parser.util.PathUtils;
 import io.swagger.v3.parser.util.RefUtils;
 import io.swagger.v3.parser.util.OpenAPIDeserializer;
+import io.swagger.v3.parser.OpenAPIResolver;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -60,23 +61,47 @@ public class ResolverCache {
      */
     private Map<String, String> renameCache = new HashMap<>();
 
-    public ResolverCache(OpenAPI openApi, List<AuthorizationValue> auths, String parentFileLocation) {
+    public ResolverCache(OpenAPI openApi, List<AuthorizationValue> auths, String parentFileLocation, OpenAPIResolver.Settings settings) {
         this.openApi = openApi;
         this.auths = auths;
-        this.rootPath = parentFileLocation;
-
-        if(parentFileLocation != null) {
-            if(parentFileLocation.startsWith("http")) {
-                parentDirectory = null;
-            } else {
-                parentDirectory = PathUtils.getParentDirectoryOfFile(parentFileLocation);
-            }
-        } else {
-            File file = new File(".");
-            parentDirectory = file.toPath();
-        }
-
+        String basePath = settings == null ? null : settings.getBasePath();
+        parentDirectory = this.getParentDirectory(basePath, parentFileLocation);
+        rootPath = this.getRootPath(basePath, parentFileLocation);
     }
+
+    public boolean isRemoteUrl(String basePath, String parentFileLocation){
+        if(basePath != null){
+            return basePath.startsWith("http");
+        }else if(parentFileLocation != null){
+            return parentFileLocation.startsWith("http");
+        }
+        return false;
+    }
+
+    public Path getParentDirectory(String basePath, String parentFileLocation) {
+        if(isRemoteUrl(basePath,parentFileLocation)) {
+            return null;
+        }
+        if(basePath != null) {
+            return PathUtils.getParentDirectoryByBasePath(basePath);
+        }
+        if(parentFileLocation != null) {
+            return PathUtils.getParentDirectoryOfFile(parentFileLocation);
+        }
+        File file = new File(".");
+        return file.toPath();
+    }
+
+    public String getRootPath(String basePath, String parentFileLocation) {
+        if(!isRemoteUrl(basePath,parentFileLocation)) {
+            return null;
+        }
+        if(basePath != null) {
+            return basePath.endsWith("/") ? basePath + "." : basePath + "/.";
+        }
+        return parentFileLocation;
+    }
+
 
     public <T> T loadRef(String ref, RefFormat refFormat, Class<T> expectedType) {
         if (refFormat == RefFormat.INTERNAL) {

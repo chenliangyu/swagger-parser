@@ -6,16 +6,16 @@
         <version>5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger.parser.v3</groupId>
+    <groupId>com.binavid.swagger.parser</groupId>
     <artifactId>swagger-parser-project</artifactId>
-    <version>2.0.3-SNAPSHOT</version>
+    <version>2.0.3-binavid.com-1</version>
     <packaging>pom</packaging>
     <name>swagger-parser-project</name>
     <developers>
         <developer>
-            <id>fehguy</id>
-            <name>Tony Tam</name>
-            <email>fehguy@gmail.com</email>
+            <id>binavid</id>
+            <name>chenliangyu</name>
+            <email>binavid.chen@gmail.com</email>
         </developer>
     </developers>
     <issueManagement>
@@ -240,17 +240,27 @@
         <module>modules/swagger-parser-v2-converter</module>
         <module>modules/swagger-parser</module>
     </modules>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <url>http://localhost:8081/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
     <repositories>
         <repository>
-            <id>sonatype-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>nexus-snapshots</id>
+            <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-v2-version>1.0.38-SNAPSHOT</swagger-parser-v2-version>
+        <swagger-parser-v2-version>1.0.36</swagger-parser-v2-version>
         <commons-io-version>2.4</commons-io-version>
         <slf4j-version>1.6.3</slf4j-version>
         <swagger-core-version>2.0.3</swagger-core-version>

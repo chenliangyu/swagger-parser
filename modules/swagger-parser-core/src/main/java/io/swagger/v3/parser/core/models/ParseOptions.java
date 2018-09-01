@@ -5,6 +5,7 @@ public class ParseOptions {
     private boolean resolveCombinators = true;
     private boolean resolveFully;
     private boolean flatten;
+    private String basePath;
 
     public boolean isResolve() {
         return resolve;
@@ -33,4 +34,8 @@ public class ParseOptions {
     public boolean isFlatten() { return flatten; }
 
     public void setFlatten(boolean flatten) { this.flatten = flatten; }
+
+    public void setBasePath(String basePath){ this.basePath = basePath; }
+
+    public String getBasePath() { return basePath; }
 }

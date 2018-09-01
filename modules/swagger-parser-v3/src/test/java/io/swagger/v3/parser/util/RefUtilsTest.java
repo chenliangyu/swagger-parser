@@ -123,6 +123,26 @@ public class RefUtilsTest {
     public final ExpectedException thrown = ExpectedException.none();
 
     @Test
+    public void testReadURLExternalRef_RelativeFormat(@Injectable final List<AuthorizationValue> auths,
+                                                      @Mocked RemoteUrl remoteUrl
+    ) throws Exception {
+
+        final String rootPath = "http://my.company.com/.";
+        final String url = "http://my.company.com/path/to/file.json";
+        final String expectedResult = "really good json";
+
+        new StrictExpectations() {{
+            RemoteUrl.urlToString(url, auths);
+            times = 1;
+            result = expectedResult;
+        }};
+
+        String actualResult = RefUtils.readExternalUrlRef("./path/to/file.json", RefFormat.RELATIVE, auths, rootPath);
+        assertEquals(expectedResult, actualResult);
+    }
+
+
+    @Test
     public void testReadExternalRef_UrlFormat_ExceptionThrown(@Injectable final List<AuthorizationValue> auths,
                                                               @Mocked RemoteUrl remoteUrl
     ) throws Exception {

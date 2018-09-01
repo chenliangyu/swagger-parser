@@ -190,7 +190,7 @@ public class ExternalRefProcessorTest {
 		OpenAPI mockedOpenAPI = new OpenAPI();
 		mockedOpenAPI.setComponents(new Components());
 		mockedOpenAPI.getComponents().setSchemas(new HashMap<>());
-		ResolverCache mockedResolverCache = new ResolverCache(mockedOpenAPI, null, null);
+		ResolverCache mockedResolverCache = new ResolverCache(mockedOpenAPI, null, null, null);
 
 		ExternalRefProcessor processor = new ExternalRefProcessor(mockedResolverCache, mockedOpenAPI);
 
